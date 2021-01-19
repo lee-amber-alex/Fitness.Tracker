@@ -1,3 +1,5 @@
+
+
 const API = {
   async getLastWorkout() {
     let res;
@@ -19,9 +21,10 @@ const API = {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data)
     });
-
+ 
+    // const json = JSON.parse(res.body);
     const json = await res.json();
-
+    
     return json;
   },
   // POST route: INSERT that creates a new workout
