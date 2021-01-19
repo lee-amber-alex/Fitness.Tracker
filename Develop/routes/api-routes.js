@@ -1,27 +1,18 @@
 const db = require("../models");
-const express = require("express");
-const router = express.Router();
+const router = require("express").Router();
 const mongoose = require("mongoose");
 
+// db.Workout.create({ name: "Workout" })
+//   .then((dbWorkout) => {
+//     console.log(dbWorkout);
+//   })
+//   .catch(({ message }) => {
+//     console.log(message);
+//   });
 
-db.Workout.create({ name: "Workout" })
-  .then((dbWorkout) => {
-    console.log(dbWorkout);
-  })
-  .catch(({ message }) => {
-    console.log(message);
-  });
 
-// creates a workout then finds a model to add to
-router.get("/api/workouts", ({ body }, res) => {
-  db.Exercise.create(body)
-    .then(({ _id }) =>
-      db.Workout.findOneAndUpdate(
-        {},
-        { $push: { exercise: _id } },
-        { new: true }
-      )
-    )
+router.get("/api/workouts", (req, res) => {
+  db.Workout.find({})
     .then((dbWorkout) => {
       res.json(dbWorkout);
     })
@@ -31,11 +22,24 @@ router.get("/api/workouts", ({ body }, res) => {
 });
 
 router.put("/api/workouts/:id", (req, res) => {
-  const workoutSelect = req.params.id;
-      db.Workout.findOneAndUpdate(
-        {_id: workoutSelect},
-        { $push: { exercise: _id }},
-        { new: true })
+  console.log(req.body);
+  let workoutSelect = req.params.id;
+  db.Workout.findByIdAndUpdate(
+    workoutSelect ,
+    { $push: { exercises: req.body } },
+    { new: true , runValidators: true}
+  )
+    .then((dbWorkout) => {
+      console.log(dbWorkout);
+      res.json(dbWorkout);
+    })
+    .catch((err) => {
+      res.status(403).json(err);
+    });
+});
+
+router.post("/api/workouts", ({ body }, res) => {
+  db.Workout.create(body)
     .then((dbWorkout) => {
       res.json(dbWorkout);
     })
@@ -43,22 +47,17 @@ router.put("/api/workouts/:id", (req, res) => {
       res.json(err);
     });
 });
+// getLastWorkout(); need to figure out how to aggregate for this, mongo to sum all the exercises
 
-router.post("/api/workouts", ({ body }, res) => {
-  db.Workout.create(body)
-    .then(dbWorkout => {
-      res.json(dbWorkout);
-    })
-    .catch((err) => {
-      res.json(err);
-    });
-});
 router.get("/api/workouts/range", (req, res) => {
   db.Workout.find({})
-    .populate("exercise")
+    .populate("exercises")
     .then((dbAllexercises) => {
       res.json(dbAllexercises).catch((err) => {
         res.json(err);
+        console.log(dbAllexercises);
       });
     });
 });
+
+module.exports = router;
