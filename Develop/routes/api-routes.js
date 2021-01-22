@@ -1,62 +1,71 @@
 const db = require("../models");
 const router = require("express").Router();
 const mongoose = require("mongoose");
-
-// db.Workout.create({ name: "Workout" })
-//   .then((dbWorkout) => {
-//     console.log(dbWorkout);
-//   })
-//   .catch(({ message }) => {
-//     console.log(message);
-//   });
-
+const Workout = require("../models/Workout.js");
 
 router.get("/api/workouts", (req, res) => {
-  db.Workout.find({})
-    .then((dbWorkout) => {
-      res.json(dbWorkout);
+  db.Workout.aggregate([
+    {
+      $addFields: {
+        totalDuration: {
+          $sum: "$exercises.duration",
+        },
+      },
+    },
+  
+  ])
+    .then((workout) => {
+      res.json(workout);
     })
     .catch((err) => {
       res.json(err);
     });
 });
 
-router.put("/api/workouts/:id", (req, res) => {
-  console.log(req.body);
-  let workoutSelect = req.params.id;
+router.put("/api/workouts/:id", ({ body, params }, res) => {
+  console.log(body);
+  console.log(typeof body);
   db.Workout.findByIdAndUpdate(
-    workoutSelect ,
-    { $push: { exercises: req.body } },
-    { new: true , runValidators: true}
+    params.id,
+    { $push: { exercises: body } },
+    { new: true, runValidators: true }
   )
-    .then((dbWorkout) => {
-      console.log(dbWorkout);
-      res.json(dbWorkout);
+    .then((workout) => {
+      res.json(workout);
     })
     .catch((err) => {
+      console.log(err);
       res.status(403).json(err);
+      // res.json(err);
     });
 });
 
 router.post("/api/workouts", ({ body }, res) => {
-  db.Workout.create(body)
-    .then((dbWorkout) => {
-      res.json(dbWorkout);
+  db.Workout.create({})
+    .then((workout) => {
+      res.json(workout);
     })
     .catch((err) => {
       res.json(err);
     });
 });
-// getLastWorkout(); need to figure out how to aggregate for this, mongo to sum all the exercises
 
+// need to add aggregate and sort and limit to 7 days. Sort ascending.
 router.get("/api/workouts/range", (req, res) => {
-  db.Workout.find({})
-    .populate("exercises")
-    .then((dbAllexercises) => {
-      res.json(dbAllexercises).catch((err) => {
-        res.json(err);
-        console.log(dbAllexercises);
-      });
+  db.Workout.aggregate([
+    {
+      $addFields: {
+        totalDuration: {
+          $sum: "$exercises.duration",
+        },
+      },
+    },
+  ]).sort({_id: -1}).limit(7)
+    .then((allExercises) => {
+      res.json(allExercises);
+    })
+    .catch((err) => {
+      res.json(err);
     });
 });
 
