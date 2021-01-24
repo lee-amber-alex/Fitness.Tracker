@@ -3,6 +3,7 @@ const router = require("express").Router();
 const mongoose = require("mongoose");
 const Workout = require("../models/Workout.js");
 
+
 router.get("/api/workouts", (req, res) => {
   db.Workout.aggregate([
     {
