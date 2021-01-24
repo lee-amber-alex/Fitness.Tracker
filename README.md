@@ -21,7 +21,7 @@ ttps://tranquil-temple-97104.herokuapp.com/
 ``` 
 
 ## Usage
-ttps://tranquil-temple-97104.herokuapp.com/  
+https://tranquil-temple-97104.herokuapp.com/  
 
 #### Homepage 
 ![Homepage](./public/img/last.png) 
