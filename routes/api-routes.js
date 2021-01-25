@@ -51,7 +51,7 @@ router.post("/api/workouts", ({ body }, res) => {
     });
 });
 
-// need to add aggregate and sort and limit to 7 days. Sort ascending.
+
 router.get("/api/workouts/range", (req, res) => {
   db.Workout.aggregate([
     {
