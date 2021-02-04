@@ -6,7 +6,7 @@
      
 ## Description
 
-Application that tracks daily workouts using MongoDB, Mongoose and Express.
+Application that tracks daily workouts using MongoDB, Mongoose and Express.  This app saves and retrieves data, providing a snapshot and aggregation of completed workouts within a seven-day period. Technologies used: Express, Mongoose, MongoDB, Mongo Atlas, Heroku.
 
 ## Table of Contents
  
@@ -17,11 +17,15 @@ Application that tracks daily workouts using MongoDB, Mongoose and Express.
  
 ## Installation
 ```
-ttps://tranquil-temple-97104.herokuapp.com/ 
+npm i
 ``` 
 
 ## Usage
-https://tranquil-temple-97104.herokuapp.com/  
+ 
+
+Visit Fitness.Tracker [here.](https://tranquil-temple-97104.herokuapp.com/ )  
+Access the project repository [here.](https://github.com/lee-amber-alex/Fitness.Tracker)  
+
 
 #### Homepage 
 ![Homepage](./public/img/last.png) 
@@ -33,14 +37,11 @@ https://tranquil-temple-97104.herokuapp.com/
 ![Total Workout](./public/img/total.png) 
 
 ## License
+UW Coding Bootcamp team for providing the frontend code. 
+
+## License
 This project is covered under the MIT License.
  
-
-
-## Tests
-```
-npm test
-``` 
 
 ## Questions
 - [Email](lee.amber.alex@gmail.com)
