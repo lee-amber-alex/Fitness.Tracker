@@ -36,7 +36,7 @@ Access the project repository [here.](https://github.com/lee-amber-alex/Fitness.
 #### See all workouts for the last 7 days:
 ![Total Workout](./public/img/total.png) 
 
-## License
+## Credits
 UW Coding Bootcamp team for providing the frontend code. 
 
 ## License
